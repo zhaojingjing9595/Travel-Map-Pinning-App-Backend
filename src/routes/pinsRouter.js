@@ -1,27 +1,11 @@
 import { Router } from "express";
-import Pin from '../models/PinSchema.js'
+import pinsController from "../controllers/pinsController.js";
 
 const pinsRouter = Router();
 
 pinsRouter
-    .route("/")
-    .post(async (req, res) => { 
-    const newPin = new Pin(req.body);
-    try {
-        const savedPin = await newPin.save();
-        res.status(200).send(savedPin);
-    } catch (error) {
-        res.status(500).send(error)
-    }
-    })
-    .get(async (req, res) => { 
-        try {
-            const pins = await Pin.find();
-            res.send(pins);
-            
-        } catch (error) {
-              res.status(500).send(error);
-        }
-    })
+  .route("/")
+  .post(pinsController.saveNewPin)
+  .get(pinsController.getPins);
 
 export default pinsRouter;
