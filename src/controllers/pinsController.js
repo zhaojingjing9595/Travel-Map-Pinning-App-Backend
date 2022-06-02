@@ -22,3 +22,4 @@ async function getPins(req, res, next) {
 }
 
 export default { saveNewPin, getPins };
+ 
