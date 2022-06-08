@@ -4,9 +4,14 @@ async function signUp(req, res, next) {
   try {
     const salt = await bcrypt.genSalt(10);
     const hashPassword = await bcrypt.hash(req.body.password, salt);
-    const newUser = new User({ ...req.body, password: hashPassword });
+    const newUser = new User({ ...req.body });
+    console.log(newUser);
+    newUser.password = hashPassword;
+    // const newUser = new User({ ...req.body, password: hashPassword });
     const savedUser = await newUser.save();
-    res.status(200).send(savedUser);
+    res
+      .status(200)
+      .send({ userId: savedUser._id, username: savedUser.username });
     next();
   } catch (error) {
     console.log(error)
